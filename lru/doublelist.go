@@ -48,10 +48,16 @@ func (dl *doublelist) empty() bool {
 }
 
 func (dl *doublelist) front() *element {
+	if dl.head._next == dl.tail {
+		return nil
+	}
 	return dl.head._next
 }
 
 func (dl *doublelist) back() *element {
+	if dl.tail._prev == dl.head {
+		return nil
+	}
 	return dl.tail._prev
 }
 
