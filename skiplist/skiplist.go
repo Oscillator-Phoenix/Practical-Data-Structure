@@ -1,8 +1,12 @@
 package skiplist
 
 import (
+	"bytes"
 	"errors"
+	"fmt"
 	"math/rand"
+	"strings"
+	"time"
 )
 
 // skipList is an ordered key-value map which was proposed by the paper below:
@@ -40,6 +44,7 @@ func newSkipListNode(key, value int, level int) *skipListNode {
 	node.key = key
 	node.value = value
 	node.forwards = make([](*skipListNode), level)
+	rand.Seed(time.Now().Unix()) // optional: reset random number seed
 	return &node
 }
 
@@ -48,6 +53,28 @@ func newSkipList() skipList {
 	sl._size = 0
 	sl.p = defaultProbability
 	sl.maxLevel = defaultMaxLevel
+	sl.less = defaultLessFunc
+	sl.head = newSkipListNode(0, 0, sl.maxLevel) // initialize head-node with maxLevel
+	return sl
+}
+
+// setProbability sets the probability which influences random level
+// you should use this function before using the skipList
+func (sl *skipList) setProbability(p float32) {
+	sl.p = p
+}
+
+// setMaxLevel sets the maxLevel which influences random level
+// you should use this function before using the skipList
+func (sl *skipList) setMaxLevel(maxLevel int) {
+	sl.maxLevel = maxLevel
+}
+
+func newSkipListWith(p float32, maxLevel int) skipList {
+	var sl skipList
+	sl._size = 0
+	sl.setProbability(p)
+	sl.setMaxLevel(maxLevel)
 	sl.less = defaultLessFunc
 	sl.head = newSkipListNode(0, 0, sl.maxLevel) // initialize head-node with maxLevel
 	return sl
@@ -157,4 +184,41 @@ func (sl *skipList) traverse(operate func(key, value int)) {
 		operate(x.key, x.value)
 		x = x.forwards[0]
 	}
+}
+
+func reverseStrings(ss []string) []string {
+	i := 0
+	j := len(ss) - 1
+	for i < j {
+		ss[i], ss[j] = ss[j], ss[i]
+		i++
+		j--
+	}
+	return ss
+}
+
+func (sl skipList) String() string {
+	ss := []string{}
+
+	for i := 0; i < sl.maxLevel; i++ {
+		var levelBuf bytes.Buffer
+		var b bytes.Buffer
+
+		x := sl.head.forwards[i]
+		for x != nil {
+			fmt.Fprintf(&b, "%d -> ", x.key)
+			x = x.forwards[i]
+		}
+
+		if b.Len() == 0 {
+			break
+		}
+
+		fmt.Fprintf(&levelBuf, "level %d: head -> ", i+1)
+		b.WriteTo(&levelBuf)
+		fmt.Fprintf(&levelBuf, "nil")
+		ss = append(ss, levelBuf.String())
+	}
+
+	return strings.Join(reverseStrings(ss), "\n")
 }
