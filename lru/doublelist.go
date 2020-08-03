@@ -6,7 +6,7 @@ import (
 )
 
 type element struct {
-	value keyValue
+	value *keyValue
 	_prev *element
 	_next *element
 }
@@ -57,7 +57,7 @@ func (dl *doublelist) back() *element {
 
 // insertAfter inserts a new element e with value v immediately after mark and returns e.
 // If mark is not an element of l, the list is not modified. The mark must not be nil.
-func (dl *doublelist) insertAfter(v keyValue, mark *element) *element {
+func (dl *doublelist) insertAfter(v *keyValue, mark *element) *element {
 	x := dl.head
 
 	for x != nil && x != mark {
@@ -79,7 +79,7 @@ func (dl *doublelist) insertAfter(v keyValue, mark *element) *element {
 	return newElemet
 }
 
-func (dl *doublelist) insertBefore(v keyValue, mark *element) *element {
+func (dl *doublelist) insertBefore(v *keyValue, mark *element) *element {
 	x := dl.tail
 
 	for x != nil && x != mark {
@@ -101,11 +101,11 @@ func (dl *doublelist) insertBefore(v keyValue, mark *element) *element {
 	return newElemet
 }
 
-func (dl *doublelist) pushBack(v keyValue) *element {
+func (dl *doublelist) pushBack(v *keyValue) *element {
 	return dl.insertBefore(v, dl.tail)
 }
 
-func (dl *doublelist) pushFront(v keyValue) *element {
+func (dl *doublelist) pushFront(v *keyValue) *element {
 	return dl.insertAfter(v, dl.head)
 }
 

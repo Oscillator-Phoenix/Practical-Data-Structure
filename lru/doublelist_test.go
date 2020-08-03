@@ -10,23 +10,23 @@ const (
 	nSimpleKVs int = 6
 )
 
-func simpleNumKVs() []keyValue {
-	kvs := []keyValue{}
+func simpleNumKVs() [](*keyValue) {
+	kvs := [](*keyValue){}
 
 	for i := 0; i < nSimpleKVs; i++ {
 		s := strconv.Itoa(i)
-		kvs = append(kvs, keyValue{s, s})
+		kvs = append(kvs, &keyValue{s, s})
 	}
 
 	return kvs
 }
 
-func simpleAlphaKVs() []keyValue {
-	kvs := []keyValue{}
+func simpleAlphaKVs() [](*keyValue) {
+	kvs := [](*keyValue){}
 
 	for i := 0; i < nSimpleKVs; i++ {
 		s := string('a' + i)
-		kvs = append(kvs, keyValue{s, s})
+		kvs = append(kvs, &keyValue{s, s})
 	}
 
 	return kvs
@@ -88,7 +88,7 @@ func TestDoubleListRemove(t *testing.T) {
 	for _, tr := range toRemoves {
 		dl.remove(tr)
 	}
-	fmt.Println("After removing: ", dl)
+	fmt.Println(" After removing: ", dl)
 }
 
 func TestDoubleListMoveToFront(t *testing.T) {
@@ -107,7 +107,7 @@ func TestDoubleListMoveToFront(t *testing.T) {
 	for _, tr := range toFronts {
 		dl.moveToFront(tr)
 	}
-	fmt.Println("After moving to front: ", dl)
+	fmt.Println(" After moving to front: ", dl)
 }
 
 func TestDoubleListMoveToBack(t *testing.T) {
@@ -126,5 +126,5 @@ func TestDoubleListMoveToBack(t *testing.T) {
 	for _, tr := range toBacks {
 		dl.moveToBack(tr)
 	}
-	fmt.Println("After moving to back: ", dl)
+	fmt.Println(" After moving to back: ", dl)
 }
