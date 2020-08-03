@@ -44,7 +44,6 @@ func newSkipListNode(key, value int, level int) *skipListNode {
 	node.key = key
 	node.value = value
 	node.forwards = make([](*skipListNode), level)
-	rand.Seed(time.Now().Unix()) // optional: reset random number seed
 	return &node
 }
 
@@ -55,6 +54,7 @@ func newSkipList() skipList {
 	sl.maxLevel = defaultMaxLevel
 	sl.less = defaultLessFunc
 	sl.head = newSkipListNode(0, 0, sl.maxLevel) // initialize head-node with maxLevel
+	rand.Seed(time.Now().Unix())                 // optional: reset random number seed
 	return sl
 }
 
