@@ -159,7 +159,7 @@ func (dl *doublelist) moveToFront(e *element) {
 		// remove x
 		x._prev._next = x._next
 		x._next._prev = x._prev
-		// x to back
+		// x to front
 		x._prev = dl.head
 		x._next = dl.head._next
 		dl.head._next._prev = x
