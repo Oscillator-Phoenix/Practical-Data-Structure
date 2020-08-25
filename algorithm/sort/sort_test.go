@@ -9,14 +9,14 @@ import (
 )
 
 const (
-	testTimes      = 100
+	testTimes      = 50
 	testScaleLimit = 1000
 	testNumRange   = 100000
 )
 
-func genRandomInts() []int {
+func genRandomInts(scaleLimit int) []int {
 	rand.Seed(time.Now().Unix())
-	scale := rand.Intn(testScaleLimit)
+	scale := rand.Intn(scaleLimit)
 	xs := make([]int, scale)
 	for i := 0; i < scale; i++ {
 		xs[i] = rand.Intn(testNumRange)
@@ -25,14 +25,14 @@ func genRandomInts() []int {
 }
 
 func sortOneCheck(mySort sortFunc) bool {
-	xs := genRandomInts()
-
 	var testLess lessFunc = func(key1, key2 int) bool { return key1 < key2 }
+	xs := genRandomInts(testScaleLimit)
+
 	predict := mySort(xs, testLess)
 
 	answer := make([]int, len(xs))
 	copy(answer, xs)
-	sort.Slice(answer, func(i, j int) bool { return answer[i] < answer[j] })
+	sort.Slice(answer, func(i, j int) bool { return testLess(answer[i], answer[j]) })
 
 	if len(predict) != len(xs) || len(answer) != len(xs) {
 		fmt.Printf("len(predict) = %d, len(xs) = %d\n", len(predict), len(xs))
@@ -57,6 +57,7 @@ func sortCheck(mySort sortFunc) bool {
 	}
 	return true
 }
+
 func TestMergeSort(t *testing.T) {
 	if sortCheck(mergeSort) == false {
 		t.Fail()

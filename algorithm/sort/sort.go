@@ -145,7 +145,3 @@ func selectSort(xs []int, less lessFunc) []int {
 
 	return sorted
 }
-
-func bubbleSort(xs []int, less lessFunc) []int {
-	return nil
-}
