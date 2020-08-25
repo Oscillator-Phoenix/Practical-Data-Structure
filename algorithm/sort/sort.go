@@ -4,8 +4,6 @@ package mysort
 
 type lessFunc func(x, y int) bool
 
-type sortFunc func(xs []int, less lessFunc) []int
-
 func merge(xs, ys []int, less lessFunc) []int {
 	i := 0
 	j := 0

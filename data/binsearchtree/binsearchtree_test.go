@@ -1,4 +1,4 @@
-package mysort
+package binsearchtree
 
 import (
 	"fmt"
@@ -8,11 +8,26 @@ import (
 	"time"
 )
 
+var testLess lessFunc = func(key1, key2 int) bool { return key1 < key2 }
+
+func TestBST1(t *testing.T) {
+	// bst := newBinarySearchTree(testLess)
+	// fmt.Println(bst)
+	// bst.insert(3)
+	// bst.insert(5)
+	// bst.insert(2)
+	// bst.insert(1)
+	// bst.insert(4)
+	// bst.insert(3)
+	// fmt.Println(bst)
+	// fmt.Println(bst.sortedVals())
+}
+
 type sortFunc func(xs []int, less lessFunc) []int
 
 const (
-	testTimes      = 50
-	testScaleLimit = 1000
+	testTimes      = 100
+	testScaleLimit = 10000
 	testNumRange   = 100000
 )
 
@@ -60,26 +75,15 @@ func sortCheck(mySort sortFunc) bool {
 	return true
 }
 
-func TestMergeSort(t *testing.T) {
-	if sortCheck(mergeSort) == false {
-		t.Fail()
+func TestBST2(t *testing.T) {
+	sf := func(xs []int, less lessFunc) []int {
+		bst := newBinarySearchTree(less)
+		for _, x := range xs {
+			bst.insert(x)
+		}
+		return bst.sortedVals()
 	}
-}
-
-func TestQuickSort(t *testing.T) {
-	if sortCheck(quickSort) == false {
-		t.Fail()
-	}
-}
-
-func TestInsertSort(t *testing.T) {
-	if sortCheck(insertSort) == false {
-		t.Fail()
-	}
-}
-
-func TestSelectSort(t *testing.T) {
-	if sortCheck(selectSort) == false {
+	if sortCheck(sf) != true {
 		t.Fail()
 	}
 }

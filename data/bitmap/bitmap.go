@@ -1,13 +1,14 @@
 package bitmap
 
+// Note: one Byte here means type `uint64` that has 64 bits
 const (
-	constBitMapMask byte   = 1
-	constBitsInByte uint64 = 8
-	constInitByte   byte   = 0
+	constBitsInByte uint64 = 64
+	constInitByte   uint64 = 0
+	constBitMapMask uint64 = 1
 )
 
 type bitmap struct {
-	bits []byte
+	bits []uint64
 }
 
 // diveup dives and rounds up a/b
@@ -23,7 +24,7 @@ func newBitMap(nbits uint64) *bitmap {
 	var bm bitmap
 
 	nbytes := diveup(nbits, constBitsInByte)
-	bm.bits = make([]byte, nbytes)
+	bm.bits = make([]uint64, nbytes)
 
 	var i uint64
 	for i = 0; i < nbytes; i++ {
@@ -50,7 +51,7 @@ func (bm *bitmap) resize(nbits uint64) uint64 {
 	if renbytes < bm.nbytes() {
 		bm.bits = bm.bits[:renbytes]
 	} else {
-		rebits := make([]byte, renbytes)
+		rebits := make([]uint64, renbytes)
 		copy(rebits, bm.bits)
 		bm.bits = rebits
 	}

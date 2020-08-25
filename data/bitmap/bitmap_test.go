@@ -10,3 +10,8 @@ func Test1(t *testing.T) {
 	fmt.Printf("%b\n", x)
 	fmt.Printf("%0b\n", ^x)
 }
+
+func TestBitMap(t *testing.T) {
+	t.Log("No test for bitmap")
+	t.FailNow()
+}
