@@ -33,10 +33,6 @@ func _insert(node *binaryTreeNode, val int, less lessFunc) *binaryTreeNode {
 	return node
 }
 
-func (tree *binarySearchTree) insert(val int) {
-	tree.root = _insert(tree.root, val, tree.less)
-}
-
 func _find(node *binaryTreeNode, val int, less lessFunc) (ok bool) {
 	if node == nil {
 		return false
@@ -51,6 +47,11 @@ func _find(node *binaryTreeNode, val int, less lessFunc) (ok bool) {
 	}
 
 	return _find(node.right, val, less) // insert to right subtree
+}
+
+func (tree *binarySearchTree) insert(val int) {
+	tree.root = _insert(tree.root, val, tree.less)
+	tree._size++
 }
 
 func (tree *binarySearchTree) find(val int) (ok bool) {

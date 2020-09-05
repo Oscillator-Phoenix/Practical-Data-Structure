@@ -11,16 +11,17 @@ import (
 var testLess lessFunc = func(key1, key2 int) bool { return key1 < key2 }
 
 func TestBST1(t *testing.T) {
-	// bst := newBinarySearchTree(testLess)
-	// fmt.Println(bst)
-	// bst.insert(3)
-	// bst.insert(5)
-	// bst.insert(2)
-	// bst.insert(1)
-	// bst.insert(4)
-	// bst.insert(3)
-	// fmt.Println(bst)
-	// fmt.Println(bst.sortedVals())
+	bst := newBinarySearchTree(testLess)
+	fmt.Println("isEmpty", bst.isEmpty())
+	bst.insert(3)
+	bst.insert(5)
+	bst.insert(2)
+	bst.insert(1)
+	bst.insert(4)
+	bst.insert(3)
+	fmt.Println("size", bst.size())
+	fmt.Println("sortedVals", bst.sortedVals())
+	fmt.Println("depth", bst.depth())
 }
 
 type sortFunc func(xs []int, less lessFunc) []int
